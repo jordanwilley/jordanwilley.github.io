@@ -33,22 +33,49 @@
     .nav-links a { padding:0 var(--pad-sm); transition:opacity var(--transition); }
     .nav-links a:hover, .nav-links a.active { opacity:0.7; }
 
-    header {
-      margin-top:var(--nav-h); height:75vh;
-      background:url('assets/Images/19765280.jpeg') center/cover no-repeat fixed;
-      display:flex; align-items:center; justify-content:center; position:relative;
+    /* Hero Slider */
+    .hero-slider {
+      margin-top: var(--nav-h);
+      position:relative;
+      height:50vh; /* Reduced for compact layout */
+      overflow:hidden;
+      background:var(--bg);
     }
-    header::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.5); }
-    .hero { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; text-align:center; }
-    .hero.visible { opacity:1; transform:none; }
-    header h1 { font-size:2.75rem; font-weight:500; margin-bottom:0.5rem; }
-    header p { opacity:0.9; margin-bottom:var(--pad-sm); }
-    .btn { padding:0.4rem 1.2rem; background:var(--accent); color:var(--bg); font-weight:700; border-radius:20px; text-transform:uppercase; font-size:0.8rem; transition:opacity var(--transition); }
+    .hero-slider img {
+      width:100%; height:100%; object-fit:cover;
+      transition: opacity 0.6s ease;
+      position:absolute; top:0; left:0;
+    }
+    .hero-text {
+      position:absolute; top:45%; /* Moved up for tighter spacing */
+      left:50%; transform:translate(-50%,-50%);
+      text-align:center; z-index:2;
+      padding:0 var(--pad-sm);
+    }
+    .hero-text h1 { font-size:2.5rem; font-weight:500; margin-bottom:0.5rem; }
+    .hero-text p { opacity:0.9; margin-bottom:var(--pad-sm); }
+    .btn {
+      padding:0.4rem 1.2rem; background:var(--accent); color:var(--bg);
+      font-weight:700; border-radius:20px; text-transform:uppercase; font-size:0.8rem;
+      transition:opacity var(--transition);
+    }
     .btn:hover { opacity:0.8; }
+    .hero-nav {
+      position:absolute; top:50%; width:100%; transform:translateY(-50%);
+      display:flex; justify-content:space-between; z-index:3;
+      padding:0 var(--pad-sm);
+    }
+    .hero-nav span {
+      font-size:2rem; color:var(--text); background:rgba(0,0,0,0.4);
+      padding:0.5rem; border-radius:50%; cursor:pointer;
+      transition:background var(--transition);
+    }
+    .hero-nav span:hover { background:rgba(0,0,0,0.7); }
 
     section {
       padding:var(--pad) var(--pad-sm); max-width:900px; margin:auto;
-      opacity:0; transform:translateY(20px); transition:opacity 0.5s ease, transform 0.5s ease;
+      opacity:0; transform:translateY(20px);
+      transition:opacity 0.5s ease, transform 0.5s ease;
     }
     section.visible { opacity:1; transform:none; }
     h2 { font-size:1.8rem; font-weight:500; text-align:center; margin-bottom:var(--pad-sm); }
@@ -62,7 +89,7 @@
     #gallery-grid img { width:100%; height:180px; object-fit:cover; transition:transform var(--transition); }
     #gallery-grid .item:hover img { transform:scale(1.1); }
 
-    /* Lightbox + navigation */
+    /* Lightbox */
     .lightbox { position:fixed; inset:0; background:rgba(0,0,0,0.95); display:flex; align-items:center; justify-content:center; visibility:hidden; opacity:0; transition:opacity var(--transition); z-index:200; }
     .lightbox.show { visibility:visible; opacity:1; }
     .lightbox img { max-width:85%; max-height:85%; border-radius:4px; }
@@ -88,13 +115,20 @@
       <a href="#contact">Contact</a>
     </div>
   </nav>
-  <header>
-    <div class="hero" id="hero">
+
+  <div class="hero-slider" id="hero-slider">
+    <img id="hero-img" src="assets/Images/19765280.jpeg" alt="Hero">
+    <div class="hero-text">
       <h1>Jordan Willey</h1>
       <p>Professional Model</p>
       <a href="#contact" class="btn">Book Now</a>
     </div>
-  </header>
+    <div class="hero-nav">
+      <span id="hero-prev">‹</span>
+      <span id="hero-next">›</span>
+    </div>
+  </div>
+
   <section id="about">
     <h2>About</h2>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.</p>
@@ -128,70 +162,36 @@
     <span class="next" id="lb-next">›</span>
   </div>
   <script>
+    // Hero slider logic
+    const heroImages = ['19765280.jpeg','19765276.jpeg','19880332.jpeg','19880333.jpeg','20693868.jpeg','20693869.jpeg','20693870.jpeg','20693872.jpeg','20693874.jpeg','20693875.jpeg','20693877.jpeg','20693878.jpeg'];
+    let heroIndex = 0;
+    const heroImg = document.getElementById('hero-img');
+    document.getElementById('hero-prev').onclick = () => { heroIndex=(heroIndex-1+heroImages.length)%heroImages.length; heroImg.src = `assets/Images/${heroImages[heroIndex]}`; };
+    document.getElementById('hero-next').onclick = () => { heroIndex=(heroIndex+1)%heroImages.length; heroImg.src = `assets/Images/${heroImages[heroIndex]}`; };
+
     // Hero reveal
-    window.addEventListener('load', () => document.getElementById('hero').classList.add('visible'));
-    // Scroll spy
-    const navbar = document.getElementById('navbar');
-    const navHeight = navbar.offsetHeight;
+    window.addEventListener('load', () => document.querySelector('.hero-text').classList.add('visible'));
+    // Scroll spy & reveals
+    const navbarEl = document.getElementById('navbar'); const navHeight = navbarEl.offsetHeight;
     const links = document.querySelectorAll('.nav-links a');
     window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 30);
-      document.querySelectorAll('section').forEach(sec => {
-        const top = window.scrollY;
-        const offset = sec.offsetTop - navHeight;
-        const height = sec.offsetHeight;
-        if (top >= offset && top < offset + height) {
-          links.forEach(l => l.classList.remove('active'));
-          document.querySelector(`.nav-links a[href="#${sec.id}"]`).classList.add('active');
-        }
+      navbarEl.classList.toggle('scrolled', window.scrollY>30);
+      document.querySelectorAll('section').forEach(sec=>{ const top=window.scrollY, off=sec.offsetTop-navHeight, h=sec.offsetHeight;
+        if(top>=off&&top<off+h){ links.forEach(l=>l.classList.remove('active')); document.querySelector(`.nav-links a[href="#${sec.id}"]`).classList.add('active'); }
       });
     });
-    // Reveal sections on scroll
-    document.querySelectorAll('section').forEach(s => {
-      new IntersectionObserver((entries, obs) => {
-        entries.forEach(ent => {
-          if (ent.isIntersecting) { ent.target.classList.add('visible'); obs.unobserve(ent.target); }
-        });
-      }, { threshold: 0.1 }).observe(s);
-    });
+    document.querySelectorAll('section').forEach(s=>{ new IntersectionObserver((entries, obs)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });},{threshold:0.1}).observe(s); });
+
     // Gallery & Lightbox
-    const images = ['19765280.jpeg','19765276.jpeg','19880332.jpeg','19880333.jpeg','20693868.jpeg','20693869.jpeg','20693870.jpeg','20693872.jpeg','20693874.jpeg','20693875.jpeg','20693877.jpeg','20693878.jpeg'];
-    let current = 0;
-    const grid = document.getElementById('gallery-grid');
-    const lightbox = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lb-img');
-    const closeBtn = document.getElementById('lb-close');
-    const prevBtn = document.getElementById('lb-prev');
-    const nextBtn = document.getElementById('lb-next');
-
-    images.forEach((file, idx) => {
-      const item = document.createElement('div'); item.className = 'item';
-      const img = document.createElement('img'); img.src = `assets/Images/${file}`;
-      img.onclick = () => openLightbox(idx);
-      item.appendChild(img);
-      grid.appendChild(item);
-    });
-
-    function openLightbox(index) {
-      current = index;
-      lbImg.src = `assets/Images/${images[current]}`;
-      lightbox.classList.add('show');
-    }
-    function showNext(dir) {
-      current = (current + dir + images.length) % images.length;
-      lbImg.src = `assets/Images/${images[current]}`;
-    }
-
-    closeBtn.onclick = () => lightbox.classList.remove('show');
-    prevBtn.onclick = () => showNext(-1);
-    nextBtn.onclick = () => showNext(1);
-    lightbox.onclick = e => { if (e.target === lightbox) lightbox.classList.remove('show'); };
-    document.addEventListener('keydown', e => {
-      if (!lightbox.classList.contains('show')) return;
-      if (e.key === 'ArrowRight') showNext(1);
-      if (e.key === 'ArrowLeft') showNext(-1);
-      if (e.key === 'Escape') lightbox.classList.remove('show');
-    });
+    const imagesArr=['19765280.jpeg','19765276.jpeg','19880332.jpeg','19880333.jpeg','20693868.jpeg','20693869.jpeg','20693870.jpeg','20693872.jpeg','20693874.jpeg','20693875.jpeg','20693877.jpeg','20693878.jpeg'];
+    let current=0; const grid=document.getElementById('gallery-grid'); const lightbox=document.getElementById('lightbox'); const lbImg=document.getElementById('lb-img');
+    const closeBtn=document.getElementById('lb-close'), prevBtn=document.getElementById('lb-prev'), nextBtn=document.getElementById('lb-next');
+    imagesArr.forEach((f,i)=>{ const item=document.createElement('div'); item.className='item'; const img=document.createElement('img'); img.src=`assets/Images/${f}`; img.onclick=()=>openLB(i); item.append(img); grid.append(item);} );
+    function openLB(i){ current=i; lbImg.src=`assets/Images/${imagesArr[current]}`; lightbox.classList.add('show'); }
+    function showN(d){ current=(current+d+imagesArr.length)%imagesArr.length; lbImg.src=`assets/Images/${imagesArr[current]}`; }
+    closeBtn.onclick=()=>lightbox.classList.remove('show'); prevBtn.onclick=()=>showN(-1); nextBtn.onclick=()=>showN(1);
+    lightbox.onclick=e=>{ if(e.target===lightbox) lightbox.classList.remove('show'); };
+    document.addEventListener('keydown',e=>{ if(!lightbox.classList.contains('show')) return; if(e.key==='ArrowRight') showN(1); if(e.key==='ArrowLeft') showN(-1); if(e.key==='Escape') lightbox.classList.remove('show'); });
   </script>
 </body>
 </html>
