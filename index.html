@@ -18,128 +18,87 @@
       --pad-sm: 0.5rem;
       --transition: 0.25s ease;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font: 300 0.95rem var(--font); }
-    a { color: var(--text); text-decoration: none; transition: opacity var(--transition); }
-    a:hover { opacity: 0.7; }
+    body { background:var(--bg); color:var(--text); font:300 0.95rem var(--font); }
+    a { color:var(--text); text-decoration:none; transition:opacity var(--transition); }
+    a:hover { opacity:0.7; }
 
-    /* Navigation */
-    nav {
-      position: fixed; top: 0; width: 100%; height: var(--nav-h);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 var(--pad); background: rgba(0,0,0,0.8);
-      z-index: 100; font-size: 0.85rem;
-    }
-    .logo { font-weight: 700; letter-spacing: 2px; }
-    .nav-links { display: flex; gap: var(--pad-sm); }
-    .nav-links a { padding: 0 var(--pad-sm); }
+    /* Nav */
+    nav { position:fixed; top:0; width:100%; height:var(--nav-h);
+          display:flex; align-items:center; justify-content:space-between;
+          padding:0 var(--pad); background:rgba(0,0,0,0.8); z-index:100;
+          font-size:0.85rem; }
+    .logo { font-weight:700; letter-spacing:2px; }
+    .nav-links { display:flex; gap:var(--pad-sm); }
+    .nav-links a { padding:0 var(--pad-sm); }
 
-    /* Condensed Hero */
-    .hero {
-      margin-top: var(--nav-h);
-      padding: var(--pad-sm) var(--pad);
-      text-align: center;
-    }
-    .hero h1 { font-size: 2rem; font-weight: 500; margin-bottom: 0.25rem; }
-    .hero p { font-size: 0.9rem; opacity: 0.9; margin-bottom: var(--pad-sm); }
-    .btn {
-      padding: 0.3rem 1rem;
-      background: transparent;
-      color: var(--text);
-      font-weight: 700;
-      border: 1px solid var(--text);
-      border-radius: 20px;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      transition: background var(--transition), color var(--transition);
-    }
-    .btn:hover { background: var(--text); color: var(--bg); }
+    /* Hero */
+    .hero { margin-top:var(--nav-h); padding:var(--pad-sm) var(--pad); text-align:center; }
+    .hero h1 { font-size:2rem; font-weight:500; margin-bottom:0.25rem; }
+    .hero p { font-size:0.9rem; opacity:0.9; margin-bottom:var(--pad-sm); }
+    .btn { padding:0.3rem 1rem; background:transparent; color:var(--text);
+           font-weight:700; border:1px solid var(--text); border-radius:20px;
+           text-transform:uppercase; font-size:0.75rem;
+           transition:background var(--transition),color var(--transition); }
+    .btn:hover { background:var(--text); color:var(--bg); }
 
     /* Sections */
-    section {
-      padding: var(--pad) var(--pad);
-      max-width: 900px;
-      margin: auto;
-      opacity: 0;
-      transform: translateY(15px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-    section.visible { opacity: 1; transform: none; }
-    h2 {
-      font-size: 1.6rem;
-      font-weight: 500;
-      text-align: center;
-      margin-bottom: var(--pad-sm);
-    }
-    #about p {
-      max-width: 600px;
-      margin: auto;
-      opacity: 0.9;
-      text-align: center;
-    }
+    section { padding:var(--pad) var(--pad); max-width:900px; margin:auto;
+              opacity:0; transform:translateY(15px);
+              transition:opacity 0.4s ease,transform 0.4s ease; }
+    section.visible { opacity:1; transform:none; }
+    h2 { font-size:1.6rem; font-weight:500; text-align:center;
+         margin-bottom:var(--pad-sm); }
+    #about p { max-width:600px; margin:auto; opacity:0.9; text-align:center; }
 
-    /* Stats grid */
-    #stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: var(--pad-sm);
-      margin-top: var(--pad-sm);
-      text-align: center;
-      font-size: 0.85rem;
-    }
-    #stats label { display: block; font-weight: 700; margin-bottom: 0.2rem; }
+    /* Stats */
+    #stats { display:grid;
+             grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+             gap:var(--pad-sm); margin-top:var(--pad-sm);
+             text-align:center; font-size:0.85rem; }
+    #stats label { display:block; font-weight:700; margin-bottom:0.2rem; }
 
-    /* Three horizontal galleries */
-    .gallery-line {
-      display: flex;
-      overflow-x: auto;
-      gap: var(--pad-sm);
-      padding-bottom: var(--pad-sm);
-      scroll-snap-type: x mandatory;
-    }
-    .gallery-line img {
-      flex: 0 0 auto;
-      scroll-snap-align: center;
-      height: auto;
-      max-height: 80vh;
-      object-fit: contain;
-      border-radius: 4px;
-      transition: transform var(--transition);
-    }
-    .gallery-line img:hover { transform: scale(1.02); }
+    /* Three gallery lines */
+    .gallery-line { display:flex; overflow-x:auto;
+                    gap:var(--pad-sm); padding-bottom:var(--pad-sm);
+                    scroll-snap-type:x mandatory; }
+    .gallery-line img { flex:0 0 auto; scroll-snap-align:center;
+                         width:auto; height:auto; max-width:none;
+                         max-height:80vh; object-fit:contain;
+                         border-radius:4px;
+                         transition:transform var(--transition); }
+    .gallery-line img:hover { transform:scale(1.02); }
 
     /* Lightbox */
-    .lightbox {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.95);
-      display: flex; align-items: center; justify-content: center;
-      visibility: hidden; opacity: 0;
-      transition: opacity var(--transition);
-      z-index: 200;
-    }
-    .lightbox.show { visibility: visible; opacity: 1; }
-    .lightbox img { max-width: 90%; max-height: 90%; border-radius: 4px; }
+    .lightbox { position:fixed; inset:0;
+                background:rgba(0,0,0,0.95);
+                display:flex; align-items:center; justify-content:center;
+                visibility:hidden; opacity:0;
+                transition:opacity var(--transition);
+                z-index:200; }
+    .lightbox.show { visibility:visible; opacity:1; }
+    .lightbox img { max-width:90%; max-height:90%; border-radius:4px; }
     .lightbox .close, .lightbox .prev, .lightbox .next {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      font-size: 2rem; color: var(--text);
-      background: rgba(0,0,0,0.5); padding: 0.5rem;
-      border-radius: 50%; cursor: pointer;
-      transition: background var(--transition);
-    }
-    .lightbox .close { top: var(--pad-sm); right: var(--pad-sm); transform: none; }
-    .lightbox .prev { left: var(--pad); }
-    .lightbox .next { right: var(--pad); }
-    .lightbox .close:hover, .lightbox .prev:hover, .lightbox .next:hover { background: rgba(0,0,0,0.7); }
+      position:absolute; top:50%; transform:translateY(-50%);
+      font-size:2rem; color:var(--text);
+      background:rgba(0,0,0,0.5); padding:0.5rem;
+      border-radius:50%; cursor:pointer;
+      transition:background var(--transition); }
+    .lightbox .close { top:var(--pad-sm); right:var(--pad-sm); transform:none; }
+    .lightbox .prev { left:var(--pad); }
+    .lightbox .next { right:var(--pad); }
+    .lightbox .close:hover, .lightbox .prev:hover, .lightbox .next:hover {
+      background:rgba(0,0,0,0.7); }
 
     /* Contact */
-    #contact { text-align: center; margin-top: var(--pad-sm); }
-    #contact p { margin-bottom: 0.5rem; font-size: 0.9rem; opacity: 0.9; }
+    #contact { text-align:center; margin-top:var(--pad-sm); }
+    #contact p { margin-bottom:0.5rem; font-size:0.9rem; opacity:0.9; }
 
-    @media (max-width: 600px) {
-      nav { padding: 0 var(--pad-sm); }
-      .hero h1 { font-size: 1.75rem; }
-      .gallery-line img { max-height: 60vh; }
+    @media(max-width:600px) {
+      nav { padding:0 var(--pad-sm); }
+      .hero h1 { font-size:1.75rem; }
+      .gallery-line img { max-height:60vh; }
     }
   </style>
 </head>
@@ -154,7 +113,6 @@
     </div>
   </nav>
 
-  <!-- Condensed Hero -->
   <div class="hero">
     <h1>Jordan Willey</h1>
     <p>Professional Model</p>
@@ -165,7 +123,6 @@
     <h2>About</h2>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.</p>
   </section>
-
   <section id="stats">
     <h2>Stats</h2>
     <div><label>Height</label>6'2" / 188cm</div>
@@ -178,52 +135,50 @@
     <div><label>Hair</label>Brown</div>
     <div><label>Eyes</label>Brown</div>
   </section>
-
   <section id="gallery">
     <h2>Gallery</h2>
     <div class="gallery-line" id="line1"></div>
     <div class="gallery-line" id="line2"></div>
     <div class="gallery-line" id="line3"></div>
   </section>
-
   <section id="contact">
     <h2>Contact</h2>
     <p>Agency: <a href="https://exampleagency.com/jordan-willey" target="_blank">Example Agency</a></p>
     <p>Bookings: <a href="mailto:bookings@exampleagency.com">bookings@exampleagency.com</a></p>
     <p>Instagram: <a href="https://instagram.com/jordan_willey" target="_blank">@jordan_willey</a></p>
   </section>
-
   <div class="lightbox" id="lightbox">
     <span class="close" id="lb-close">×</span>
     <span class="prev" id="lb-prev">‹</span>
     <img id="lb-img" src="" alt="">
     <span class="next" id="lb-next">›</span>
   </div>
-
   <script>
-    // Scroll spy & reveals
-    const nav = document.querySelector('nav');
-    const navH = nav.offsetHeight;
-    const links = document.querySelectorAll('.nav-links a');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 10);
-      document.querySelectorAll('section').forEach(sec => {
-        const top = window.scrollY, off = sec.offsetTop - navH, h = sec.offsetHeight;
-        if (top >= off && top < off + h) {
-          links.forEach(l => l.classList.remove('active'));
-          document.querySelector(`.nav-links a[href="#${sec.id}"]`).classList.add('active');
-        }
+    // Reveal and scroll-spy
+    const nav = document.querySelector('nav'), navH=nav.offsetHeight;
+    const links=document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll',()=>{
+      nav.classList.toggle('scrolled',window.scrollY>10);
+      document.querySelectorAll('section').forEach(sec=>{
+        const top=window.scrollY,off=sec.offsetTop-navH,h=sec.offsetHeight;
+        if(top>=off&&top<off+h){ links.forEach(l=>l.classList.remove('active')); document.querySelector(`.nav-links a[href="#${sec.id}"]`).classList.add('active'); }
       });
     });
-    document.querySelectorAll('section').forEach(s => {
-      new IntersectionObserver((entries, obs) => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-      }, { threshold: 0.1 }).observe(s);
-    });
+    document.querySelectorAll('section').forEach(sec=>{ new IntersectionObserver((e,o)=>{ e.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('visible'); o.unobserve(en.target);} });},{threshold:0.1}).observe(sec); });
+    
+    // Gallery lines setup
+    const images=['19765276.jpeg','19765280.jpeg','19880332.jpeg','19880333.jpeg','20693868.jpeg','20693869.jpeg','20693870.jpeg','20693872.jpeg','20693874.jpeg','20693875.jpeg','20693877.jpeg','20693878.jpeg'];
+    const lines=[document.getElementById('line1'),document.getElementById('line2'),document.getElementById('line3')];
+    images.forEach((f,i)=>{ const img=document.createElement('img'); img.src=`assets/Images/${f}`; img.addEventListener('click',()=>openLB(i)); lines[i%3].append(img); });
 
-    // Gallery lines
-    const images = ['19765276.jpeg','19765280.jpeg','19880332.jpeg','19880333.jpeg','20693868.jpeg','20693869.jpeg','20693870.jpeg','20693872.jpeg','20693874.jpeg','20693875.jpeg','20693877.jpeg','20693878.jpeg'];
-    const lines = [document.getElementById('line1'), document.getElementById('line2'), document.getElementById('line3')];
-    images.forEach((f,i) => {
-      const img = document.createElement('img'); img.src = `assets/Images/${f}`;
-      img.addEventListener('click', () => openLB(i));
+    // Lightbox logic
+    let current=0; const lightbox=document.getElementById('lightbox'), lbImg=document.getElementById('lb-img');
+    const closeBtn=document.getElementById('lb-close'), prevBtn=document.getElementById('lb-prev'), nextBtn=document.getElementById('lb-next');
+    function openLB(i){ current=i; lbImg.src=`assets/Images/${images[current]}`; lightbox.classList.add('show'); }
+    function showN(d){ current=(current+d+images.length)%images.length; lbImg.src=`assets/Images/${images[current]}`; }
+    closeBtn.onclick=()=>lightbox.classList.remove('show'); prevBtn.onclick=()=>showN(-1); nextBtn.onclick=()=>showN(1);
+    lightbox.onclick=e=>{ if(e.target===lightbox) lightbox.classList.remove('show'); };
+    document.addEventListener('keydown',e=>{ if(!lightbox.classList.contains('show'))return; if(e.key==='ArrowRight') showN(1); if(e.key==='ArrowLeft') showN(-1); if(e.key==='Escape') lightbox.classList.remove('show'); });
+  </script>
+</body>
+</html>
