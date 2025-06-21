@@ -11,7 +11,7 @@
     :root {
       --bg: #000;
       --text: #fff;
-      --accent: #f0a500;
+      --accent: #ccc;
       --font: 'Montserrat', sans-serif;
       --nav-h: 50px;
       --pad: 2rem;
@@ -21,17 +21,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font: 300 0.95rem var(--font); overflow-x: hidden; }
-    a { color: var(--accent); text-decoration: none; }
+    a { color: var(--text); text-decoration: none; transition: opacity var(--transition); }
+    a:hover { opacity: 0.7; }
     nav {
       position: fixed; top: 0; width: 100%; height: var(--nav-h);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 var(--pad); background: rgba(0,0,0,0.8);
+      padding: 0 var(--pad); background: rgba(0, 0, 0, 0.8);
       z-index: 100; font-size: 0.9rem;
     }
     .logo { font-weight: 700; letter-spacing: 3px; }
     .nav-links { display: flex; gap: var(--pad-sm); }
-    .nav-links a { padding: 0 var(--pad-sm); transition: opacity var(--transition); }
-    .nav-links a:hover, .nav-links a.active { opacity: 0.7; }
+    .nav-links a { padding: 0 var(--pad-sm); }
 
     /* Compact Hero */
     .hero {
@@ -51,15 +51,19 @@
     }
     .btn {
       padding: 0.4rem 1.2rem;
-      background: var(--accent);
-      color: var(--bg);
+      background: transparent;
+      color: var(--text);
       font-weight: 700;
+      border: 1px solid var(--text);
       border-radius: 20px;
       text-transform: uppercase;
       font-size: 0.8rem;
-      transition: opacity var(--transition);
+      transition: background var(--transition), color var(--transition);
     }
-    .btn:hover { opacity: 0.8; }
+    .btn:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
 
     section {
       padding: var(--pad) var(--pad-sm);
@@ -109,7 +113,7 @@
     /* Lightbox */
     .lightbox {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.95);
+      background: rgba(0, 0, 0, 0.95);
       display: flex; align-items: center; justify-content: center;
       visibility: hidden; opacity: 0;
       transition: opacity var(--transition);
@@ -125,7 +129,7 @@
       transform: translateY(-50%);
       font-size: 2rem;
       color: var(--text);
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       padding: 0.5rem;
       border-radius: 50%;
       cursor: pointer;
@@ -182,7 +186,7 @@
     <div><label>Hair</label>Brown</div>
     <div><label>Eyes</label>Brown</div>
   </section>
-  <section id="gallery">
+  <section id="#gallery">
     <h2>Gallery</h2>
     <div id="gallery-grid"></div>
   </section>
@@ -234,28 +238,13 @@
     const nextBtn = document.getElementById('lb-next');
 
     imagesArr.forEach((f, i) => {
-      const item = document.createElement('div');
-      item.className = 'item';
-      const img = document.createElement('img');
-      img.src = `assets/Images/${f}`;
-      img.addEventListener('click', () => openLB(i));
-      item.append(img);
-      grid.append(item);
+      const item = document.createElement('div'); item.className = 'item';
+      const img = document.createElement('img'); img.src = `assets/Images/${f}`;
+      img.addEventListener('click', () => openLB(i)); item.append(img); grid.append(item);
     });
-
-    function openLB(i) {
-      current = i;
-      lbImg.src = `assets/Images/${imagesArr[current]}`;
-      lightbox.classList.add('show');
-    }
-    function showN(d) {
-      current = (current + d + imagesArr.length) % imagesArr.length;
-      lbImg.src = `assets/Images/${imagesArr[current]}`;
-    }
-
-    closeBtn.onclick = () => lightbox.classList.remove('show');
-    prevBtn.onclick = () => showN(-1);
-    nextBtn.onclick = () => showN(1);
+    function openLB(i) { current = i; lbImg.src = `assets/Images/${imagesArr[current]}`; lightbox.classList.add('show'); }
+    function showN(d) { current = (current + d + imagesArr.length) % imagesArr.length; lbImg.src = `assets/Images/${imagesArr[current]}`; }
+    closeBtn.onclick = () => lightbox.classList.remove('show'); prevBtn.onclick = () => showN(-1); nextBtn.onclick = () => showN(1);
     lightbox.onclick = e => { if (e.target === lightbox) lightbox.classList.remove('show'); };
     document.addEventListener('keydown', e => {
       if (!lightbox.classList.contains('show')) return;
